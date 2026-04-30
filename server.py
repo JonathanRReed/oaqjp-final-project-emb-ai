@@ -8,6 +8,7 @@ from EmotionDetection import emotion_detector
 
 
 APP = Flask(__name__)
+app = APP
 
 PAGE_TEMPLATE = """
 <!doctype html>
@@ -49,11 +50,11 @@ def index() -> str:
     return render_template_string(PAGE_TEMPLATE, text="", result=None, error=None)
 
 
-@APP.route("/emotionDetector", methods=["POST"])
+@APP.route("/emotionDetector", methods=["GET", "POST"])
 def emotion_detector_route() -> str:
     """Handle submitted text and display emotion detector output."""
 
-    text_to_analyze = request.form.get("textToAnalyze", "")
+    text_to_analyze = request.values.get("textToAnalyze", "")
     if not text_to_analyze.strip():
         return render_template_string(
             PAGE_TEMPLATE,
