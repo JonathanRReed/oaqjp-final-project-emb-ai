@@ -1,0 +1,10 @@
+$ .venv/bin/python - <<'PY'
+from EmotionDetection import emotion_detector
+result = emotion_detector('I am happy and joyful today')
+print(result)
+print(type(result).__name__)
+print(sorted(result.keys()))
+PY
+{'anger': 0.0, 'disgust': 0.0, 'fear': 0.0, 'joy': 1.0, 'sadness': 0.0, 'dominant_emotion': 'joy'}
+dict
+['anger', 'disgust', 'dominant_emotion', 'fear', 'joy', 'sadness']

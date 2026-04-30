@@ -1,0 +1,6 @@
+$ .venv/bin/python -m unittest test_emotion_detection.py
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.001s
+
+OK

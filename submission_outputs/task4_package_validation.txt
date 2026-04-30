@@ -1,0 +1,8 @@
+$ .venv/bin/python - <<'PY'
+import EmotionDetection
+from EmotionDetection import emotion_detector
+print(EmotionDetection.__all__)
+print(emotion_detector('I love this package')['dominant_emotion'])
+PY
+['emotion_detector']
+joy
