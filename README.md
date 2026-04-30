@@ -1,4 +1,4 @@
-# Emotion Detector
+# Final Project: Emotion Detector
 
 AI-based Flask web application that detects the dominant emotion in text.
 
