@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import os
+
 from flask import Flask, render_template_string, request
 
 from EmotionDetection import emotion_detector
@@ -9,6 +11,12 @@ from EmotionDetection import emotion_detector
 
 APP = Flask(__name__)
 app = APP
+
+
+def _env_flag(name: str) -> bool:
+    """Read an opt-in boolean environment flag."""
+
+    return os.environ.get(name, "").strip().lower() in {"1", "true", "yes", "on"}
 
 PAGE_TEMPLATE = """
 <!doctype html>
@@ -63,7 +71,15 @@ def emotion_detector_route() -> str:
             error="Invalid text! Please try again!",
         )
 
-    response = emotion_detector(text_to_analyze)
+    try:
+        response = emotion_detector(text_to_analyze)
+    except Exception:
+        return render_template_string(
+            PAGE_TEMPLATE,
+            text=text_to_analyze,
+            result=None,
+            error="Emotion detection is unavailable. Please try again later.",
+        )
     dominant_emotion = response.get("dominant_emotion")
     if dominant_emotion is None:
         return render_template_string(
@@ -88,4 +104,6 @@ def emotion_detector_route() -> str:
 
 
 if __name__ == "__main__":
-    APP.run(host="0.0.0.0", port=5000, debug=True)
+    host = os.environ.get("FLASK_HOST", "127.0.0.1")
+    port = int(os.environ.get("FLASK_PORT", "5000"))
+    APP.run(host=host, port=port, debug=_env_flag("FLASK_DEBUG"))
